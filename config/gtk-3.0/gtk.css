@@ -1,0 +1,10 @@
+@import 'colors.css';
+
+decoration, headerbar.titlebar {
+border-radius: 4;
+box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
+}
+window decoration {
+border: none; 
+/*border: 1px solid rgba(0, 0, 0, 0.2); */
+}
