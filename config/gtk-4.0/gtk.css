@@ -9,13 +9,13 @@ Changes are applied instantly and globally, for the whole application.
 /* ghostty slim tab bar */
 
 tabbar {
-  margin-bottom: -19px;
   margin-left: -10px;
   margin-right: -10px;
 }
 
 tabbar tabbox {
- transform: translateY(-12px);
+margin-bottom: -10px;
+margin-top: -10px;
 }
 
 tab {
