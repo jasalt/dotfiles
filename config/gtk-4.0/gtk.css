@@ -1,0 +1,26 @@
+@import 'colors.css';
+/*
+You can type here any CSS rule recognized by GTK.
+You can temporarily disable this custom CSS by clicking on the “Pause” button above.
+
+Changes are applied instantly and globally, for the whole application.
+*/
+
+/* ghostty slim tab bar */
+
+tabbar {
+  margin-bottom: -19px;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+tabbar tabbox {
+ transform: translateY(-12px);
+}
+
+tab {
+  border-radius: 0px;
+}
+tabboxchild {
+  border-radius: 0px;
+}
