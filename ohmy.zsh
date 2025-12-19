@@ -6,6 +6,13 @@ take() {
     mkdir "$1" && cd "$1"
 }
 
+
+# from git plugin
+
+alias ga="git add"
+alias gcm="git commit -m"
+alias gst="git status"
+
 # extract plugin
 
 # https://github.com/ohmyzsh/ohmyzsh/blob/95de26572e6790ea178193580c625c9109119176/plugins/extract/extract.plugin.zsh
