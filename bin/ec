@@ -4,13 +4,23 @@
 # If having trouble on Mac, make sure correct emacsclient is found in $PATH.
 
 if [ "$(pidof emacs)" ] ; then
-    emacsclient  -s ~/.emacs.d/.cache/server/jarkon-emacs "$@" &
-else
-
-    if [[ $OSTYPE == 'darwin'* ]]; then
-    open -a Emacs --args --chdir $PWD "$@"
+    if [ $# -eq 0 ]; then
+        emacsclient -c -s ~/.emacs.d/.cache/server/jarkon-emacs &
     else
-    emacs "$@" &
+        emacsclient -s ~/.emacs.d/.cache/server/jarkon-emacs "$@" &
     fi
-
+else
+    if [[ $OSTYPE == 'darwin'* ]]; then
+        if [ $# -eq 0 ]; then
+            open -a Emacs --args --chdir $PWD &
+        else
+            open -a Emacs --args --chdir $PWD "$@"
+        fi
+    else
+        if [ $# -eq 0 ]; then
+            emacs &
+        else
+            emacs "$@" &
+        fi
+    fi
 fi

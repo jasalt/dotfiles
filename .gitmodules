@@ -1,0 +1,6 @@
+[submodule "submodules/ww-run-raise"]
+	path = submodules/ww-run-raise
+	url = https://github.com/academo/ww-run-raise.git
+[submodule "submodules/jumpkwapp"]
+	path = submodules/jumpkwapp
+	url = ssh://git@codeberg.org/jasalt/jumpkwapp.git
