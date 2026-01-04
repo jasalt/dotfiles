@@ -48,17 +48,23 @@
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 
+# TODO add sudo here?
+shell-integration-features = ssh-env
+
 scrollback-limit = 100000000
 
 window-width = 80
 window-height = 24
 
-background = "#000000"
+# background = "#000000"
+theme = dark:GitLab Dark,light:GitLab Light
+# minimum-contrast = 5
+
+
 gtk-tabs-location = bottom
 gtk-toolbar-style = flat
 
 cursor-style = block
-minimum-contrast = 5
 
 font-family = "Hack Nerd Font Mono"
 
