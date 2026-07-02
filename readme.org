@@ -1,0 +1,28 @@
+* Bootstrapping on a new system
+Related packages: =git zsh stow emacs tmux ...=
+
+Configuration is organized as [[https://www.gnu.org/software/stow/][GNU Stow]] modules and can be set up as follows:
+
+#+begin_src
+git clone <repourl> ~/dotfiles
+cd ~/dotfiles
+stow -S bin gtk zsh tmux   # symlinks configs to home directory
+#+end_src
+
+* Module overview
+** bin
+Utility scripts, linked to =~/.bin=.
+
+- =CAPS_OFF= turns stuck caps lock off which used to happen occasionally with it mapped as ctrl on X11
+- =ec= launches =emacs= or =emacsclient=
+** zsh
+[[https://github.com/sorin-ionescu/prezto][Zprezto]]-based zsh shell configuration with couple bits ported from oh-my-zsh in =ohmy.zsh=. Most customization in =custom.zsh= (TODO cleanup).
+** gtk
+CSS styling to match GTK window border radius and shadow better with KDE Plasma windows.
+** tmux
+Change statusbar to gray and re-map default =C-b= overlapping readline keybindings to =C-\=.
+
+* KDE Desktop environment config
+TODO (?) https://github.com/Prayag2/konsave
+** Keylayout
+Use included keylayout "German, Swedish and Finnish (US)" defined in /usr/share/X11/xkb/us (Debian, Fedora) configurable in KDE Keyboard settings.
