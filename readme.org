@@ -1,4 +1,4 @@
-* Bootstrapping on a new system
+
 Related packages: =git zsh stow emacs tmux ...=
 
 Configuration is organized as [[https://www.gnu.org/software/stow/][GNU Stow]] modules and can be set up as follows:
@@ -22,7 +22,8 @@ CSS styling to match GTK window border radius and shadow better with KDE Plasma 
 ** tmux
 Change statusbar to gray and re-map default =C-b= overlapping readline keybindings to =C-\=.
 
-* KDE Desktop environment config
+* Misc notes
+** KDE Desktop environment config
 TODO (?) https://github.com/Prayag2/konsave
-** Keylayout
+*** Keylayout
 Use included keylayout "German, Swedish and Finnish (US)" defined in /usr/share/X11/xkb/us (Debian, Fedora) configurable in KDE Keyboard settings.
