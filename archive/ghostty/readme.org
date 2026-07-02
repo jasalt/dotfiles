@@ -1,0 +1,1 @@
+Ghostty seemed pretty good but non-configurable url hover tooltip obstructing the prompt often put me off with it (https://github.com/ghostty-org/ghostty/discussions/3848#discussioncomment-15379534).
