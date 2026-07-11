@@ -1,0 +1,3 @@
+[submodule "bin/.bin/bvv"]
+	path = bin/.bin/bvv-repo
+	url = git@github.com:jasalt/bvv.git
