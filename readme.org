@@ -6,7 +6,7 @@ Configuration is organized as [[https://www.gnu.org/software/stow/][GNU Stow]] m
 #+begin_src
 git clone <repourl> ~/dotfiles
 cd ~/dotfiles
-stow -S bin gtk zsh tmux   # symlinks configs to home directory
+stow -S bin gtk zsh tmux kitty   # symlinks configs to home directory
 #+end_src
 
 * Module overview
