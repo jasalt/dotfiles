@@ -6,7 +6,7 @@ fi
 
 . $HOME/.locals.sh
 
-export PATH=$PATH:$HOME/.bin
+export PATH=$PATH:$HOME/.bin:$HOME/.local/bin
 export PATH=$PATH:$(go env GOPATH)/bin
 
 # Installed from OS package manager (TODO check)
