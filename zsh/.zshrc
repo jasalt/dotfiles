@@ -20,8 +20,6 @@ alias rp="source ~/.zshrc" # Reload shell profile
 alias cdd="cd ~/Desktop/"
 alias sl="ls"
 
-alias ...="cd ../../"
-
 take() {
     mkdir "$1" && cd "$1"
 }
