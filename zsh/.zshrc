@@ -73,7 +73,8 @@ cbfp() {
 
 ### Networking helpers
 alias myip="curl -s checkip.dyndns.org | sed -e 's/.*Current IP Address: //' -e 's/<.*$//'"
-alias ports="lsof -Pni4 | grep LISTEN"  # List open ports
+unalias ports 2>/dev/null
+ports() { lsof -Pni4 | awk '/LISTEN/{print; system("cat /proc/"$2"/cmdline | tr \"\\000\" \" \"; echo"); print ""}'; }  # List open ports + binary
 alias cbssh="cat ~/.ssh/id_ed25519.pub | cb"  # TODO update to ecdsa key
 
 alias x=unarchive
