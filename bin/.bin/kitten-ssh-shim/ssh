@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Overrides regular `ssh` calls with `kitten ssh` when placed early in path e.g.
+# PATH="$HOME/.bin/kitten-ssh-shim:$PATH" command limactl
+
+kitten=$(command -v kitten) ||
+  { echo "kitten not found" >&2; exit 127; }
+
+shim_dir=$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+
+parts=()
+IFS=:
+for dir in $PATH; do
+    # An empty PATH component means the current directory.
+    check_dir=${dir:-.}
+
+    # Compare canonical paths, so symlinks / relative PATH entries work.
+    if [[ $(cd -P -- "$check_dir" 2>/dev/null && pwd) == "$shim_dir" ]]; then
+        continue
+    fi
+
+    parts+=("$dir")
+done
+
+# Remove this shim directory so kitten itself finds the real OpenSSH client.
+PATH=$(IFS=:; printf '%s' "${parts[*]}")
+export PATH
+
+exec "$kitten" ssh "$@"

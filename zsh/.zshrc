@@ -100,3 +100,17 @@ zle -N sudo-last-command
 
 bindkey -M emacs $'\e\e' sudo-last-command
 bindkey -M viins $'\e\e' sudo-last-command
+
+# Kitty terminal specific Lima CLI kitten wrappers, making Kitty image
+# protocol work from guest VM shell
+limactlk() {
+    PATH="$HOME/.bin/kitten-ssh-shim:$PATH" command limactl "$@"
+}
+
+limak() {
+    PATH="$HOME/.bin/kitten-ssh-shim:$PATH" command lima "$@"
+}
+
+# Override
+alias lima=limak
+alias limactl=limactlk
