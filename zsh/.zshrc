@@ -4,10 +4,13 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-. $HOME/.locals.sh
+[[ -r "$HOME/.locals.sh" ]] && source "$HOME/.locals.sh"
 
 export PATH=$PATH:$HOME/.bin:$HOME/.local/bin
-export PATH=$PATH:$(go env GOPATH)/bin
+if (( $+commands[go] )); then
+  GOPATH=$(go env GOPATH 2>/dev/null)
+  [[ -n "$GOPATH" ]] && export PATH=$PATH:$GOPATH/bin
+fi
 
 # Installed from OS package manager (TODO check)
 eval "$(zoxide init zsh)"
@@ -112,5 +115,5 @@ limak() {
 }
 
 # Override
-alias lima=limak
-alias limactl=limactlk
+# alias lima=limak
+# alias limactl=limactlk
