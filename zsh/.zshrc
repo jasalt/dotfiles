@@ -18,6 +18,7 @@ eval "$(zoxide init zsh)"
 ##### Aliases / Functions
 
 alias rp="source ~/.zshrc" # Reload shell profile
+alias screen-off="kscreen-doctor --dpms off"
 
 ## Clipboard and file manager utilities
 alias cdd="cd ~/Desktop/"
