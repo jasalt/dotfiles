@@ -8,22 +8,23 @@ kitten=$(command -v kitten) ||
 
 shim_dir=$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 
-parts=()
-IFS=:
-for dir in $PATH; do
-    # An empty PATH component means the current directory.
-    check_dir=${dir:-.}
+path_without_shim() {
+    local dir check_dir
+    local -a parts=()
 
-    # Compare canonical paths, so symlinks / relative PATH entries work.
-    if [[ $(cd -P -- "$check_dir" 2>/dev/null && pwd) == "$shim_dir" ]]; then
-        continue
-    fi
+    while IFS= read -r -d : dir; do
+        check_dir=${dir:-.}
 
-    parts+=("$dir")
-done
+        if [[ $(cd -P -- "$check_dir" 2>/dev/null && pwd) != "$shim_dir" ]]; then
+            parts+=("$dir")
+        fi
+    done < <(printf '%s:' "$PATH")
+
+    (IFS=:; printf '%s' "${parts[*]}")
+}
 
 # Remove this shim directory so kitten itself finds the real OpenSSH client.
-PATH=$(IFS=:; printf '%s' "${parts[*]}")
+PATH=$(path_without_shim)
 export PATH
 
 exec "$kitten" ssh "$@"
