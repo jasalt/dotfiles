@@ -17,6 +17,19 @@ MAX_ENV_BYTES = 1024 * 1024
 MAX_SESSION_BYTES = 16 * 1024
 
 
+def agent_from_title(title):
+    """Untrusted tab title is only a hint for an explicitly selected action."""
+    if not isinstance(title, str):
+        return None
+    if title.startswith('pig -'):
+        return 'pig'
+    if title.startswith('kmet -'):
+        return 'kmet'
+    if 'Claude Code' in title:
+        return 'claude'
+    return None
+
+
 def absolute_path(value):
     return isinstance(value, str) and value.startswith('/') and '\0' not in value
 
@@ -138,6 +151,8 @@ def handle_result(args, result, target_window_id, boss):
 
     # Snapshot before the popup changes foreground processes / active window.
     container = nixant_session(window)
+    tab = window.tabref() if container else None
+    agent = agent_from_title(tab.title) if tab is not None else None
     ssh_pid, ssh_cmdline = window.ssh_kitten_cmdline_with_pid()
     if container:
         record, entry_cwd, guest_cwd = container
@@ -152,7 +167,7 @@ def handle_result(args, result, target_window_id, boss):
         if target_window_id not in boss.window_id_map:
             return
         command = []
-        if choice == 'c' and container:
+        if container and (choice == 'c' or (choice == 'a' and agent)):
             cwd = record['project_root']
             if not usable_directory(cwd):
                 boss.show_error('Cannot split Nixant session',
@@ -168,6 +183,8 @@ def handle_result(args, result, target_window_id, boss):
             command = ['--hold', '--', executable, 'shell', record['target']]
             if guest_cwd is not None:
                 command.extend(['--cwd', guest_cwd])
+            if choice == 'a':
+                command.extend(['--startup-app', agent])
         elif choice == 'r' and not container:
             cwd = 'current'
         elif choice == 'l':
@@ -190,7 +207,13 @@ def handle_result(args, result, target_window_id, boss):
         label = f"c:Container — {record['instance']}"
         if guest_cwd is None:
             label += ' (normal starting directory)'
-        boss.choose('Open split in:', split, 'l:Local', label,
+        choices = ['l:Local', label]
+        if agent:
+            agent_label = f'a:Agent — {agent}'
+            if guest_cwd is None:
+                agent_label += ' (normal starting directory)'
+            choices.append(agent_label)
+        boss.choose('Open split in:', split, *choices,
                     window=window, default='c', title='Split session')
     elif ssh_cmdline:
         boss.choose('Open the split locally or on the remote host?', split,

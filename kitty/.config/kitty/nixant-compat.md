@@ -4,6 +4,29 @@ Status: implemented in `split_session.py` with mocked unit coverage. Live Kitty/
 
 Companion implementation inspected at [`nixant-py`](https://github.com/jasalt/nixant-py) (`src/nixant/cli.py` and `nix/modules/shell-integration/osc7.py`). Its design document is `nixant-py/todo-kitten-compat.md`.
 
+## Agent shortcuts from tab titles
+
+For validated local Nixant sessions, the source tab title is captured before the
+chooser opens. Case-sensitive matching recognizes `pig -` or `kmet -` at the
+beginning, or `Claude Code` anywhere. Prefix matches take precedence. A match
+adds **A: Agent — pig/kmet/claude**; Container remains the default. Titles are
+only hints and can be stale, customized, or set by another pane in the tab.
+No title text is executed or used as a directory.
+
+Agent launches add `--startup-app pig|kmet|claude` to the normal Nixant shell
+command. This requires the updated host Nixant CLI in `/home/user/dev/jail/nixant`;
+rebuild/reinstall the host CLI before using A. Old CLIs show an unsupported-option
+error in the held pane. No guest image rebuild is needed for startup-app itself.
+
+Nixant initializes the guest user's interactive login Bash/Zsh/Fish environment,
+restores the selected directory, emits its session CWD report, runs the fixed app,
+then opens a fresh login shell after exit. Missing applications report an error
+and return to a shell. Unsupported guest shells show an error and open normally.
+The application is a new session; no resume flags or source arguments are copied.
+Startup files must permit interactive `-c` execution; live validation with each
+user's shell configuration remains necessary. Local/SSH sessions do not gain an
+Agent shortcut.
+
 ## Implemented contract and installation
 
 The version-1 JSON includes the five fields below **plus the required**

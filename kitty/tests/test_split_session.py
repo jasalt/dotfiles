@@ -119,6 +119,41 @@ class SessionTests(unittest.TestCase):
                 else:
                     self.assertIn('normal starting directory', self.boss.choose.call_args.args[3])
 
+    @patch.object(m, 'usable_directory', return_value=True)
+    @patch.object(m.shutil, 'which', return_value='/bin/nixant')
+    def test_agent_titles_and_launch(self, *_):
+        for title, agent in [('pig - workspace', 'pig'), ('kmet - workspace', 'kmet'),
+                             ('project | Claude Code | active', 'claude')]:
+            for direction in ('hsplit', 'vsplit'):
+                self.window.tabref.return_value.title = title
+                with self.container():
+                    self.invoke(direction)
+                self.assertEqual(self.boss.choose.call_args.kwargs['default'], 'c')
+                self.assertIn(f'a:Agent — {agent}', self.boss.choose.call_args.args)
+                # Choice uses the captured source tab, not a later overlay title.
+                self.window.tabref.return_value.title = 'unrelated'
+                self.choose('a')
+                self.assertEqual(self.boss.launch.call_args.args[-2:], ('--startup-app', agent))
+                self.choose('c')
+                self.assertNotIn('--startup-app', self.boss.launch.call_args.args)
+        for title in ['', 'editing pig - notes', ' kmet - space', 'claude code', None]:
+            self.assertIsNone(m.agent_from_title(title))
+        self.assertEqual(m.agent_from_title('pig - $(evil); Claude Code'), 'pig')
+
+    def test_agent_requires_container_and_matching_tab(self):
+        self.window.title = 'pig - pane'
+        self.window.tabref.return_value.title = 'unrelated tab'
+        with self.container(), patch.object(m, 'usable_directory', return_value=True):
+            self.invoke()
+        self.assertEqual(len(self.boss.choose.call_args.args), 4)
+        self.choose('a')
+        self.boss.launch.assert_not_called()
+        self.window.tabref.return_value.title = 'pig - workspace'
+        self.window.child.foreground_processes = []
+        self.boss.reset_mock()
+        self.invoke()
+        self.boss.choose.assert_not_called()
+
     def test_guest_path_validation(self):
         authority = RECORD['cwd_authority']
         for report in ['', 'file://host/etc', f'file://{authority}',
