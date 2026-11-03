@@ -46,6 +46,12 @@ zstyle ':prezto:load' pmodule \
   'history-substring-search' \
   'prompt'\
   'last-working-dir'
+#
+# Last Working Directory
+#
+
+# Keep directory tracking and manual lwd, without changing startup directories.
+zstyle ':prezto:module:last-working-dir' auto-restore 'no'
 
 #
 # Autosuggestions

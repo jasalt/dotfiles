@@ -31,10 +31,10 @@ function lwd {
 autoload -Uz add-zsh-hook  
 add-zsh-hook chpwd chpwd_last_working_dir  
   
-# Jump to last directory automatically unless:  
-# - This isn't the first time the module is loaded  
-# - We're not in the $HOME directory (e.g. if terminal opened a different folder)  
-if [[ -z "$ZSH_LAST_WORKING_DIRECTORY" ]] && [[ "$PWD" == "$HOME" ]]; then  
+# Restore only when explicitly enabled and starting in the home directory.
+# Keep tracking and manual lwd available regardless of this setting.
+if zstyle -t ':prezto:module:last-working-dir' auto-restore \
+  && [[ -z "$ZSH_LAST_WORKING_DIRECTORY" && "$PWD" == "$HOME" ]]; then
   if lwd 2>/dev/null; then  
     ZSH_LAST_WORKING_DIRECTORY=1  
   fi  
