@@ -24,6 +24,10 @@ alias screen-off="kscreen-doctor --dpms off"
 alias cdd="cd ~/Desktop/"
 alias sl="ls"
 
+## Zoxide autojump alias
+alias j='z'
+alias ji='zi'
+
 take() {
     mkdir "$1" && cd "$1"
 }
@@ -118,3 +122,32 @@ limak() {
 # Override
 # alias lima=limak
 # alias limactl=limactlk
+
+alias sc='systemctl'
+alias jc='journalctl'
+
+alias scu='systemctl --user'
+alias jcu='journalctl --user'
+
+alias pc='podman compose'
+alias pex='podman exec -it'
+alias pkrun='podman run --runtime=krun'
+alias dnfi='sudo dnf install'
+
+alias rcp='rsync -avP'
+
+local-models() {
+    curl -fsS http://localhost:11434/v1/models
+}
+
+gpset() {
+    git push --set-upstream origin HEAD
+}
+
+nixant-remote() {
+    command nix run github:jasalt/nixant-py -- "$@"
+}
+
+nixant-dev() {
+    command nix run "path:$HOME/dev/jail/nixant" -- "$@"
+}
