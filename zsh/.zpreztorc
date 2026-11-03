@@ -229,8 +229,8 @@ zstyle ':prezto:module:prompt' theme 'sorin'
 # Terminal
 #
 
-# Auto set the tab and window titles.
-# zstyle ':prezto:module:terminal' auto-title 'yes'
+# Let the terminal emulator's shell integration own automatic titles.
+zstyle ':prezto:module:terminal' auto-title 'no'
 
 # Set the window title format.
 # zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'
