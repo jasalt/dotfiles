@@ -5,10 +5,10 @@
 
 if [ "$(pidof emacs)" ] ; then
     if [ $# -eq 0 ]; then
-        emacsclient -c -s ~/.emacs.d/.cache/server/jarkon-emacs &
+        emacsclient -c -s jarkon-emacs &
     else
 	# TODO use -c conditionally depending if emacs has window on current virtual desktop 
-        emacsclient -c -s ~/.emacs.d/.cache/server/jarkon-emacs "$@" &
+        emacsclient -c -s jarkon-emacs "$@" &
     fi
 else
     if [[ $OSTYPE == 'darwin'* ]]; then
